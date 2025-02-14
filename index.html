@@ -1,150 +1,149 @@
 <!DOCTYPE html>
 <html lang="ja">
 <head>
-  <title>ビジュアルシンカー診断テスト</title>
-  <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
-  <style>
-    body {
-      font-family: sans-serif;
-      text-align: center;
-    }
+    <title>ビジュアルシンカー診断テスト</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
+    <style>
+        body {
+            font-family: sans-serif;
+            text-align: center;
+        }
 
-    .container {
-      max-width: 600px; /* PC表示での最大幅 */
-      padding: 20px;
-    }
+        .container {
+            max-width: 600px;
+            padding: 20px;
+        }
 
-    #quiz-container {
-      margin: 0 auto;
-    }
+        #quiz-container {
+            margin: 0 auto;
+        }
 
-    .card {
-      margin-bottom: 10px;
-    }
+        .card {
+            margin-bottom: 10px;
+        }
 
-    .card-header {
-      font-weight: bold;
-    }
+        .card-header {
+            font-weight: bold;
+        }
 
-    .form-check {
-      display: flex;
-      align-items: center;
-    }
+        .form-check {
+            display: flex;
+            align-items: center;
+        }
 
-    .form-check-label {
-      margin-left: 10px;
-    }
+        .form-check-label {
+            margin-left: 10px;
+        }
 
-    #result {
-      margin-top: 20px;
-    }
+        #result {
+            margin-top: 20px;
+        }
 
-    /* スマホ表示用スタイル */
-    @media (max-width: 767px) {
-      .container {
-        padding: 10px;
-      }
+        @media (max-width: 767px) {
+            .container {
+                padding: 10px;
+            }
 
-      #quiz-container {
-        width: 100%;
-      }
-    }
-  </style>
+            #quiz-container {
+                width: 100%;
+            }
+        }
+    </style>
 </head>
 <body>
-  <div style="text-align: center;"><img src="senya.PNG" width="200" /></div>
-  <div class="container">
-    <h1>ビジュアルシンカー診断テスト</h1>
-    <div id="quiz-container">
-      </div>
-    <button id="submit-button" class="btn btn-primary">結果を見る</button>
+    <div style="text-align: center;"><img src="senya.PNG" width="200" /></div>
+    <div class="container">
+        <h1>ビジュアルシンカー診断テスト</h1>
+        <div id="quiz-container">
+        </div>
+        <button id="submit-button" class="btn btn-primary">結果を見る</button>
 
-    <div id="result" style="display: none;">
-      <h2>診断結果</h2>
-      <p id="result-text"></p>
+        <div id="result" style="display: none;">
+            <h2>診断結果</h2>
+            <p id="result-text"></p>
+        </div>
+
+        <div style="text-align: center;"><img src="senya.PNG" width="200" /></div>
+
     </div>
 
-      <div style="text-align: center;"><img src="senya.PNG" width="200" /></div>
+    <script>
+        const quizData = [
+            { question: "質問1", options: { A: "Aのテキスト", B: "Bのテキスト", C: "Cのテキスト" } },
+            { question: "質問2", options: { A: "Aのテキスト", B: "Bのテキスト", C: "Cのテキスト" } },
+            { question: "質問3", options: { A: "Aのテキスト", B: "Bのテキスト", C: "Cのテキスト" } },
+            { question: "質問4", options: { A: "Aのテキスト", B: "Bのテキスト", C: "Cのテキスト" } },
+            { question: "質問5", options: { A: "Aのテキスト", B: "Bのテキスト", C: "Cのテキスト" } },
+            { question: "質問6", options: { A: "Aのテキスト", B: "Bのテキスト", C: "Cのテキスト" } },
+            { question: "質問7", options: { A: "Aのテキスト", B: "Bのテキスト", C: "Cのテキスト" } },
+            { question: "質問8", options: { A: "Aのテキスト", B: "Bのテキスト", C: "Cのテキスト" } },
+            { question: "質問9", options: { A: "Aのテキスト", B: "Bのテキスト", C: "Cのテキスト" } },
+            { question: "質問10", options: { A: "Aのテキスト", B: "Bのテキスト", C: "Cのテキスト" } },
+        ];
 
-  </div>
+        let answers = [];
+        let abcCounts = { A: 0, B: 0, C: 0 };
 
-  <script>
-    const quizData = [
-      { question: "質問1", options: ["A", "B", "C"] },
-      { question: "質問2", options: ["A", "B", "C"] },
-      { question: "質問3", options: ["A", "B", "C"] },
-      { question: "質問4", options: ["A", "B", "C"] },
-      { question: "質問5", options: ["A", "B", "C"] },
-      { question: "質問6", options: ["A", "B", "C"] },
-      { question: "質問7", options: ["A", "B", "C"] },
-      { question: "質問8", options: ["A", "B", "C"] },
-      { question: "質問9", options: ["A", "B", "C"] },
-      { question: "質問10", options: ["A", "B", "C"] },
-    ];
+        quizData.forEach((question, index) => {
+            const card = document.createElement('div');
+            card.classList.add('card');
+            card.innerHTML = `
+                <div class="card-header">${question.question}</div>
+                <div class="card-body">
+                    ${Object.entries(question.options).map(([option, text]) => `
+                        <div class="form-check">
+                            <input class="form-check-input" type="radio" name="answer${index}" id="answer${index}-${option}">
+                            <label class="form-check-label" for="answer${index}-${option}">${option}: ${text}</label>
+                        </div>
+                    `).join('')}
+                </div>
+            `;
+            document.getElementById('quiz-container').appendChild(card);
+        });
 
-    let answers = [];
-    let abcCounts = { A: 0, B: 0, C: 0 };
+        document.getElementById('submit-button').addEventListener('click', () => {
+            quizData.forEach((question, index) => {
+                const selectedOption = document.querySelector(`input[name="answer${index}"]:checked`);
+                answers[index] = selectedOption ? selectedOption.id.slice(-1) : null;
+            });
 
-    quizData.forEach((question, index) => {
-      const card = document.createElement('div');
-      card.classList.add('card');
-      card.innerHTML = `
-        <div class="card-header">${question.question}</div>
-        <div class="card-body">
-          ${question.options.map(option => `
-            <div class="form-check">
-              <input class="form-check-input" type="radio" name="answer${index}" id="answer${index}-${option}">
-              <label class="form-check-label" for="answer${index}-${option}">${option}</label>
-            </div>
-          `).join('')}
-        </div>
-      `;
-      document.getElementById('quiz-container').appendChild(card);
-    });
+            answers.forEach(answer => {
+                if (answer) {
+                    abcCounts[answer]++;
+                }
+            });
 
-    document.getElementById('submit-button').addEventListener('click', () => {
-      quizData.forEach((question, index) => {
-        const selectedOption = document.querySelector(`input[name="answer${index}"]:checked`);
-        answers[index] = selectedOption ? selectedOption.id.slice(-1) : null;
-      });
+            showResult();
+        });
 
-      answers.forEach(answer => {
-        if (answer) {
-          abcCounts[answer]++;
+        function showResult() {
+            const resultText = `
+                A: ${abcCounts.A}個<br>
+                B: ${abcCounts.B}個<br>
+                C: ${abcCounts.C}個<br><br>
+                最多: ${Object.keys(abcCounts).reduce((a, b) => abcCounts[a] > abcCounts[b] ? a : b)}<br><br>
+                ${generateResult()}
+            `;
+            document.getElementById('result-text').innerHTML = resultText;
+            document.getElementById('quiz-container').style.display = 'none';
+            document.getElementById('submit-button').style.display = 'none';
+            document.getElementById('result').style.display = 'block';
         }
-      });
 
-      showResult();
-    });
-
-    function showResult() {
-      const resultText = `
-        A: ${abcCounts.A}個<br>
-        B: ${abcCounts.B}個<br>
-        C: ${abcCounts.C}個<br><br>
-        最多: ${Object.keys(abcCounts).reduce((a, b) => abcCounts[a] > abcCounts[b] ? a : b)}<br><br>
-        ${generateResult()}
-      `;
-      document.getElementById('result-text').innerHTML = resultText;
-      document.getElementById('quiz-container').style.display = 'none';
-      document.getElementById('submit-button').style.display = 'none';
-      document.getElementById('result').style.display = 'block';
-    }
-
-    function generateResult() {
-      const mostFrequent = Object.keys(abcCounts).reduce((a, b) => abcCounts[a] > abcCounts[b] ? a : b);
-      switch (mostFrequent) {
-        case 'A':
-          return 'あなたは〇〇タイプです。（Aが多い場合の解説）'; // A が最多の場合
-        case 'B':
-          return 'あなたは△△タイプです。（Bが多い場合の解説）'; // B が最多の場合
-        case 'C':
-          return 'あなたは□□タイプです。（Cが多い場合の解説）'; // C が最多の場合
-        default:
-          return '不明';
-      }
-    }
-  </script>
+        function generateResult() {
+            const mostFrequent = Object.keys(abcCounts).reduce((a, b) => abcCounts[a] > abcCounts[b] ? a : b);
+            switch (mostFrequent) {
+                case 'A':
+                    return 'あなたは〇〇タイプです。（Aが多い場合の解説）';
+                case 'B':
+                    return 'あなたは△△タイプです。（Bが多い場合の解説）';
+                case 'C':
+                    return 'あなたは□□タイプです。（Cが多い場合の解説）';
+                default:
+                    return '不明';
+            }
+        }
+    </script>
 </body>
 </html>
